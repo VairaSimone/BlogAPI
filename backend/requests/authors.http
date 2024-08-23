@@ -1,0 +1,82 @@
+@baseUrl=http://localhost:5000
+@userId=66b25aca00d407a8fa29295a
+@blogsId=66bb4c5c6d230e03564fb2c8
+
+###
+GET {{baseUrl}}/authors/{{userId}}
+
+###
+GET {{baseUrl}}/authors?page=2
+
+###
+POST {{baseUrl}}/authors
+Content-Type: application/json
+
+{
+    "nome": "Pinco",
+    "cognome": "Panco",
+    "email": "grttg@asdf.asdf",
+    "dataNascita": "2002-07-30T00:00:00.000Z",
+    "avatar": "Admin"
+}
+
+###
+
+PUT {{baseUrl}}/authors/{{userId}} 
+Content-Type: application/json
+
+{
+    "nome": "gianni"
+}
+
+###
+
+DELETE {{baseUrl}}/authors/{{userId}}
+ 
+
+
+
+
+
+
+###
+
+GET {{baseUrl}}/blogs
+
+###
+GET {{baseUrl}}/blogs/{{blogsId}}
+
+###
+POST {{baseUrl}}/blogs
+Content-Type: application/json
+
+{
+    "title": "casa",
+    "cover": "https://thumbs.dreamstime.com/b/superficie-praticante-il-surfing-dell-acqua-onda-di-oceano-mare-124362369.jpg",
+    "readTime": {
+        "value": "de",
+        "unit": "de"
+    },
+    "author": "66c862ec1c1a32ac176edce5",
+    "content": "bella"
+}
+
+###
+
+PUT {{baseUrl}}/blogs/{{blogsId}} 
+Content-Type: application/json
+
+{
+    "cover": "gianni"
+}
+
+###
+
+DELETE {{baseUrl}}/blogs/{{blogsId}}
+
+
+###
+GET {{baseUrl}}/authors/{{userId}}/blogPosts
+
+###
+GET {{baseUrl}}/blogs/blogPosts?title=Titolo
