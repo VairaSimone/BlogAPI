@@ -1,4 +1,3 @@
-// models/Blog.js
 import mongoose, { Schema, model } from 'mongoose';
 
 const blogSchema = new Schema(
@@ -32,6 +31,12 @@ const blogSchema = new Schema(
         content: {
             type: String,
         },
+        comments: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Comment'
+            }
+        ],
     },
     {
         collection: 'blog',
