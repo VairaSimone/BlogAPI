@@ -19,6 +19,12 @@ const authorSchema = new Schema(
             type: String,
             required: true,
             unique: true,
+            lowercase: true,
+            trim: true,
+        },
+        password: {
+            type: String,
+            required: true
         },
         dataNascita: {
             type: Date,
@@ -32,5 +38,5 @@ const authorSchema = new Schema(
     }
 );
 
-const Author = model('Author', authorSchema);
+const Author = mongoose.models.Author || mongoose.model('Author', authorSchema);
 export default Author;

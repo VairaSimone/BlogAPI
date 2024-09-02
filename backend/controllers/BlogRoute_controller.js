@@ -63,9 +63,18 @@ const GetAllBlogByTitle = async (req, res) => {
     }
 }
 
+// controllers/BlogRoute_controller.js
 const PostBlog = async (req, res) => {
     try {
         const blogData = req.body;
+
+        // Assicurati che `comments` sia un array di ObjectId valido o un array vuoto
+        if (blogData.comments && !Array.isArray(blogData.comments)) {
+            return res.status(400).send({ message: 'Il campo comments deve essere un array.' });
+        }
+
+        blogData.comments = blogData.comments || [];
+
         blogData._id = new mongoose.Types.ObjectId();
         const newBlog = new Blog(blogData);
 
@@ -91,6 +100,7 @@ const PostBlog = async (req, res) => {
         res.status(400).send({ message: 'Errore nella creazione del blog' });
     }
 };
+
 
 const PutBlog = async (req, res) => {
     try {

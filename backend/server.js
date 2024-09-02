@@ -8,6 +8,7 @@ import fileUpload from 'express-fileupload';
 
 import authorRouter from './router/author.router.js';
 import blogRouter from './router/blog.router.js';
+import authRouter from './router/auth.router.js';
 
 const port = process.env.PORT || 5000;
 
@@ -26,7 +27,7 @@ mongoose
     .then(() => console.log('Database connesso!'))
     .catch((err) => console.log(err));
 
-
+app.use("/api/v1/", authRouter)
 app.use('/authors', authorRouter);
 app.use('/blogs', blogRouter);
 
