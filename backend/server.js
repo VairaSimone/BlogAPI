@@ -9,6 +9,8 @@ import fileUpload from 'express-fileupload';
 import authorRouter from './router/author.router.js';
 import blogRouter from './router/blog.router.js';
 import authRouter from './router/auth.router.js';
+import passport from 'passport';
+import googleStrategy from './config/passport.config.js';
 
 const port = process.env.PORT || 5000;
 
@@ -17,6 +19,7 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"))
 app.use(helmet())
+passport.use("google", googleStrategy)
 app.use(fileUpload({
     useTempFiles: true,
     tempFileDir: '/tmp/'

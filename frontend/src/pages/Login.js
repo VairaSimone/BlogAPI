@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../components/AuthContext';
+import GoogleLogin from '../components/GoogleLogin';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -70,6 +71,8 @@ const Login = () => {
                 <button type="submit" className="btn btn-primary btn-block">Login</button>
             </form>
             <p className="mt-3">Don't have an account? <Link to="/register">Sign up here</Link></p>
+            <GoogleLogin />
+
         </div>
     );
 };

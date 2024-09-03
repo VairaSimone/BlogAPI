@@ -21,3 +21,10 @@ export const login = async (req, res) => {
 
     })
 }
+
+export const callbackGoogle = (req, res) => {
+    console.log('Callback Google raggiunta, token:', req.user.jwtToken); // Log per verifica
+
+    // Reindirizza al frontend con il token JWT
+    res.redirect(`http://localhost:3000/login-google-callback?token=${req.user.jwtToken}`);
+}

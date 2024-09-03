@@ -19,6 +19,10 @@ const Navbar = () => {
                             <Link className="nav-link" to="/create-post">Create Post</Link>
                         </li>
                         <li className="nav-item">
+                            <Link className="nav-link" to="/authors">Authors</Link>
+                        </li>
+
+                        <li className="nav-item">
                             <Link className="nav-link" to="/profile">My Profile</Link>
                         </li>
                         <li className="nav-item">

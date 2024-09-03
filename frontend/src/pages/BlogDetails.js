@@ -1,3 +1,4 @@
+// pages/BlogDetails.js
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { authFetch } from '../services/authFetch';
@@ -8,6 +9,7 @@ const BlogDetails = () => {
     const [author, setAuthor] = useState(null);
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
+    const [user, setUser] = useState(null); // Store the logged-in user's info
 
     useEffect(() => {
         const fetchBlog = async () => {
@@ -33,23 +35,46 @@ const BlogDetails = () => {
             }
         };
 
+        const fetchUserProfile = async () => {
+            const response = await authFetch('/authors/me');
+            if (response.ok) {
+                const userData = await response.json();
+                setUser(userData); // Set the logged-in user's data
+            }
+        };
+
         fetchBlog();
         fetchComments();
+        fetchUserProfile();
     }, [blogId]);
 
     const handleCommentSubmit = async (e) => {
         e.preventDefault();
+
+        if (!user) {
+            alert('You need to be logged in to comment.');
+            return;
+        }
+
         const response = await authFetch(`/blogs/${blogId}/comments`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ content: newComment }),
+            body: JSON.stringify({
+                content: newComment,
+                author: user._id, // Include the author ID when submitting the comment
+            }),
         });
+
         if (response.ok) {
             const data = await response.json();
             setComments([...comments, data]);
             setNewComment('');
+        } else {
+            const errorData = await response.json();
+            console.error('Failed to post comment:', errorData.message);
+            alert('Failed to post comment.');
         }
     };
 

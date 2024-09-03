@@ -3,6 +3,7 @@ import mongoose, { Schema, model } from 'mongoose';
 const authorSchema = new Schema(
     {
         _id: mongoose.Schema.Types.ObjectId,
+        googleId: String,
         nome: {
             type: String,
             minLength: 3,
@@ -24,7 +25,6 @@ const authorSchema = new Schema(
         },
         password: {
             type: String,
-            required: true
         },
         dataNascita: {
             type: Date,

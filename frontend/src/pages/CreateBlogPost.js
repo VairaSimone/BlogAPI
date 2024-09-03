@@ -10,7 +10,7 @@ const CreateBlogPost = () => {
     const [content, setContent] = useState('');
     const [category, setCategory] = useState('');
     const [readTime, setReadTime] = useState({ value: '', unit: 'min' });
-    const [cover, setCover] = useState("");
+    const [cover, setCover] = useState(null);
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
@@ -22,18 +22,27 @@ const CreateBlogPost = () => {
             return;
         }
 
-        const formData = new FormData();
-        formData.append('title', title);
-        formData.append('content', content);
-        formData.append('category', category);
-        formData.append('readTime.value', readTime.value);
-        formData.append('readTime.unit', readTime.unit);
-
-        if (cover) {
-            formData.append('cover', cover);
-        }
-
         try {
+            // Fetch the user's profile to get the author ID
+            const userResponse = await authFetch('/authors/me');
+            if (!userResponse.ok) {
+                setError('Failed to fetch user profile.');
+                return;
+            }
+            const user = await userResponse.json();
+
+            const formData = new FormData();
+            formData.append('title', title);
+            formData.append('content', content);
+            formData.append('category', category);
+            formData.append('readTime.value', readTime.value);
+            formData.append('readTime.unit', readTime.unit);
+            formData.append('author', user._id);  // Add the author ID to the request
+
+            if (cover) {
+                formData.append('cover', cover);
+            }
+
             const response = await authFetch('/blogs', {
                 method: 'POST',
                 body: formData,
@@ -107,7 +116,6 @@ const CreateBlogPost = () => {
                         className="form-control"
                         value={cover}
                         onChange={(e) => setCover(e.target.value)}
-
                     />
                     <button type="submit" className="btn btn-primary btn-block mt-4">Create Post</button>
                 </form>

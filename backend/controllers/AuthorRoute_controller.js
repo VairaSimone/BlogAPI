@@ -160,5 +160,5 @@ const UpdateAuthorAvatar = async (req, res) => {
     }
 };
 
-export { GetAllAuthor, GetIDAuthor, GetAllBlogByAuthor, PostAuthor, PutAuthor, DeleteAuthor, UpdateAuthorAvatar};
+export { GetAllAuthor, GetIDAuthor, GetAllBlogByAuthor, GetMe, PostAuthor, PutAuthor, DeleteAuthor, UpdateAuthorAvatar};
 
