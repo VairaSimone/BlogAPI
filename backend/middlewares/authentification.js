@@ -1,4 +1,3 @@
-// middlewares/authentification.js
 import jwt from 'jsonwebtoken';
 import Author from '../models/Author.js';
 
@@ -27,7 +26,6 @@ export default async (req, res, next) => {
             return res.status(401).send("User not found");
         }
 
-        // Attach the authenticated user to the request object
         req.authAuthor = authAuthor;
         next();
     } catch (err) {

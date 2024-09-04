@@ -12,12 +12,17 @@ const GoogleCallbackPage = () => {
         const token = urlParams.get('token');
         
         if (token) {
-            console.log('Token ricevuto:', token); // Log per verifica
-            login(token); // Salva il token
-            navigate('/home'); // Reindirizza alla home
+            // Salva il token (meglio usare httpOnly cookies, ma per semplicità usiamo localStorage qui)
+            localStorage.setItem('token', token);
+
+            // Aggiorna lo stato dell'autenticazione
+            login(token);
+
+            // Reindirizza l'utente alla home page o alla pagina precedente
+            navigate('/home');
         } else {
-            console.error('Token mancante nel callback Google');
-            navigate('/login'); // Torna al login in caso di errore
+            // Se manca il token, riporta l'utente alla pagina di login
+            navigate('/login');
         }
     }, [location, login, navigate]);
 
