@@ -14,7 +14,7 @@ const Login = () => {
         e.preventDefault();
 
         if (!email || !password) {
-            setError('Both email and password are required.');
+            setError('Email and password sono richiesti.');
             return;
         }
 
@@ -29,7 +29,7 @@ const Login = () => {
 
             if (!response.ok) {
                 const { message } = await response.json();
-                setError(message || 'Invalid credentials, please try again.');
+                setError(message || 'Credenziali invalide.');
                 return;
             }
 
@@ -39,11 +39,11 @@ const Login = () => {
                 login(data.token);
                 navigate('/home');
             } else {
-                setError('Login failed. No token received.');
+                setError('Login errato. Token non ricevuto.');
             }
         } catch (err) {
-            console.error('Login error:', err);
-            setError('An error occurred, please try again later.');
+            console.error('errore Login:', err);
+            setError('Errori, riprovare più tardi.');
         }
     };
 

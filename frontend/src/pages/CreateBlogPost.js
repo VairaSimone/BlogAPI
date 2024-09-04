@@ -1,4 +1,3 @@
-// pages/CreateBlogPost.js
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../components/AuthContext';
@@ -18,15 +17,14 @@ const CreateBlogPost = () => {
         e.preventDefault();
 
         if (!title || !content || !category || !readTime.value) {
-            setError('All fields except cover are required.');
+            setError('I campi sono obbligatori.');
             return;
         }
 
         try {
-            // Fetch the user's profile to get the author ID
             const userResponse = await authFetch('/authors/me');
             if (!userResponse.ok) {
-                setError('Failed to fetch user profile.');
+                setError('Errore caricamento profilo');
                 return;
             }
             const user = await userResponse.json();
@@ -37,7 +35,7 @@ const CreateBlogPost = () => {
             formData.append('category', category);
             formData.append('readTime.value', readTime.value);
             formData.append('readTime.unit', readTime.unit);
-            formData.append('author', user._id);  // Add the author ID to the request
+            formData.append('author', user._id); 
 
             if (cover) {
                 formData.append('cover', cover);
@@ -52,11 +50,11 @@ const CreateBlogPost = () => {
                 navigate('/home');
             } else {
                 const data = await response.json();
-                setError(data.message || 'Failed to create the blog post.');
+                setError(data.message || 'Errore nella creazione di blog post.');
             }
         } catch (err) {
-            console.error('Error creating blog post:', err);
-            setError('An error occurred while creating the blog post.');
+            console.error('Errore creando il blog post:', err);
+            setError('Diversi errori durante la creazione del post.');
         }
     };
 
@@ -69,14 +67,14 @@ const CreateBlogPost = () => {
                     <input
                         type="text"
                         className="form-control"
-                        placeholder="Title"
+                        placeholder="Titolo"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         required
                     />
                     <textarea
                         className="form-control"
-                        placeholder="Content"
+                        placeholder="Contenuto"
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
                         required
@@ -84,7 +82,7 @@ const CreateBlogPost = () => {
                     <input
                         type="text"
                         className="form-control"
-                        placeholder="Category"
+                        placeholder="Categoria"
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
                         required
@@ -94,7 +92,7 @@ const CreateBlogPost = () => {
                             <input
                                 type="number"
                                 className="form-control"
-                                placeholder="Read Time"
+                                placeholder="Tempo lettura"
                                 value={readTime.value}
                                 onChange={(e) => setReadTime({ ...readTime, value: e.target.value })}
                                 required
@@ -106,8 +104,8 @@ const CreateBlogPost = () => {
                                 value={readTime.unit}
                                 onChange={(e) => setReadTime({ ...readTime, unit: e.target.value })}
                             >
-                                <option value="min">Minutes</option>
-                                <option value="hours">Hours</option>
+                                <option value="min">Minuti</option>
+                                <option value="hours">Ora</option>
                             </select>
                         </div>
                     </div>

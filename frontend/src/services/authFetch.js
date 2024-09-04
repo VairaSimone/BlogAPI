@@ -1,12 +1,11 @@
-// utils/authFetch.js
-import { isTokenExpired } from '../services/isTokenExpired';
+import { isTokenExpired } from './IsTokenExpired';
 
 export const authFetch = async (url, options = {}) => {
     const token = localStorage.getItem('token');
 
     if (isTokenExpired(token)) {
         localStorage.removeItem('token');
-        window.location.href = '/login';  // Redirect to login
+        window.location.href = '/login';  
         return;
     }
 
@@ -15,7 +14,6 @@ export const authFetch = async (url, options = {}) => {
         ...options.headers,
     };
 
-    // Automatically include the author ID if the user is creating a blog post
     const authAuthor = JSON.parse(localStorage.getItem('authAuthor'));
 
     if (options.method === 'POST' && authAuthor) {
@@ -38,7 +36,7 @@ export const authFetch = async (url, options = {}) => {
 
     if (response.status === 401) {
         localStorage.removeItem('token');
-        window.location.href = '/login';  // Redirect to login
+        window.location.href = '/login';  
     }
 
     return response;

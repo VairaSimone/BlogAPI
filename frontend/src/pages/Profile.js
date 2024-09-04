@@ -1,4 +1,3 @@
-// pages/Profile.js
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../components/AuthContext';
 import { authFetch } from '../services/authFetch';
@@ -13,25 +12,25 @@ const Profile = () => {
 
     useEffect(() => {
         const fetchUserData = async () => {
-            const response = await authFetch('/authors/me');  // We will implement this route next
+            const response = await authFetch('/authors/me'); 
             if (response.ok) {
                 const data = await response.json();
                 setUser(data);
 
-                // Fetch the user's blogs after successfully getting the user data
+
                 const fetchUserBlogs = async () => {
                     const blogsResponse = await authFetch('/blogs');
                     if (blogsResponse.ok) {
                         const blogsData = await blogsResponse.json();
                         setBlogs(blogsData.dati.filter(blog => blog.author === data._id));
                     } else {
-                        setError('Failed to fetch blogs.');
+                        setError('Errore nei blogs.');
                     }
                 };
 
                 fetchUserBlogs();
             } else {
-                setError('Failed to fetch user data.');
+                setError('Errore nei dati.');
             }
         };
 
@@ -50,14 +49,14 @@ const Profile = () => {
         });
 
         if (response.ok) {
-            alert('Profile updated successfully');
+            alert('Profilo aggiornato correttamente');
         } else {
-            alert('Failed to update profile.');
+            alert('Errore su aggiornamento profilo.');
         }
     };
 
     const handleDeleteBlog = async (blogId) => {
-        if (!window.confirm('Are you sure you want to delete this blog post?')) return;
+        if (!window.confirm('Sicura di voler eliminare il blog post?')) return;
 
         const response = await authFetch(`/blogs/${blogId}`, {
             method: 'DELETE',
@@ -65,13 +64,13 @@ const Profile = () => {
 
         if (response.ok) {
             setBlogs(blogs.filter(blog => blog._id !== blogId));
-            alert('Blog post deleted successfully.');
+            alert('Blog post eliminato.');
         } else {
-            alert('Failed to delete blog post.');
+            alert('Errore durante eliminazione di blog post.');
         }
     };
 
-    if (!user) return <div>Loading...</div>;
+    if (!user) return <div>Caricamento...</div>;
 
     return (
         <div className="container">

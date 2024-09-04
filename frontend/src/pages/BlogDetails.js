@@ -1,4 +1,3 @@
-// pages/BlogDetails.js
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { authFetch } from '../services/authFetch';
@@ -9,7 +8,7 @@ const BlogDetails = () => {
     const [author, setAuthor] = useState(null);
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
-    const [user, setUser] = useState(null); // Store the logged-in user's info
+    const [user, setUser] = useState(null); 
 
     useEffect(() => {
         const fetchBlog = async () => {
@@ -18,7 +17,6 @@ const BlogDetails = () => {
                 const data = await response.json();
                 setBlog(data);
 
-                // Fetch author details
                 const authorResponse = await authFetch(`/authors/${data.author}`);
                 if (authorResponse.ok) {
                     const authorData = await authorResponse.json();
@@ -39,7 +37,7 @@ const BlogDetails = () => {
             const response = await authFetch('/authors/me');
             if (response.ok) {
                 const userData = await response.json();
-                setUser(userData); // Set the logged-in user's data
+                setUser(userData); 
             }
         };
 
@@ -52,7 +50,7 @@ const BlogDetails = () => {
         e.preventDefault();
 
         if (!user) {
-            alert('You need to be logged in to comment.');
+            alert('Effettua il login per commentare.');
             return;
         }
 
@@ -63,7 +61,7 @@ const BlogDetails = () => {
             },
             body: JSON.stringify({
                 content: newComment,
-                author: user._id, // Include the author ID when submitting the comment
+                author: user._id, 
             }),
         });
 
@@ -73,12 +71,12 @@ const BlogDetails = () => {
             setNewComment('');
         } else {
             const errorData = await response.json();
-            console.error('Failed to post comment:', errorData.message);
-            alert('Failed to post comment.');
+            console.error('Errore nei commenti: ', errorData.message);
+            alert('Errori nei commenti.');
         }
     };
 
-    if (!blog) return <div>Loading...</div>;
+    if (!blog) return <div>Caricamento...</div>;
 
     return (
         <div className="container">
@@ -87,21 +85,21 @@ const BlogDetails = () => {
                 <div className="card-body">
                     <h3 className="card-title">{blog.title}</h3>
                     <p className="card-text">{blog.content}</p>
-                    <p><strong>Category:</strong> {blog.category}</p>
-                    <p><strong>Read Time:</strong> {blog.readTime?.value} {blog.readTime?.unit}</p>
+                    <p><strong>Categoria:</strong> {blog.category}</p>
+                    <p><strong>Tempo di lettura:</strong> {blog.readTime?.value} {blog.readTime?.unit}</p>
                 </div>
                 {author && (
                     <div className="card-footer blog-author">
-                        <p><strong>Author:</strong> {author.nome} {author.cognome}</p>
+                        <p><strong>Autore:</strong> {author.nome} {author.cognome}</p>
                         <p><strong>Email:</strong> {author.email}</p>
                     </div>
                 )}
             </div>
 
             <div className="comments my-4">
-                <h4>Comments</h4>
+                <h4>Commenti</h4>
                 {comments.length === 0 ? (
-                    <p>No comments yet.</p>
+                    <p>Non ci sono commenti.</p>
                 ) : (
                     <ul className="list-group">
                         {comments.map((comment) => (
@@ -115,7 +113,7 @@ const BlogDetails = () => {
                     <div className="mb-3">
                         <textarea
                             className="form-control"
-                            placeholder="Add a comment"
+                            placeholder="Aggiungi commento"
                             value={newComment}
                             onChange={(e) => setNewComment(e.target.value)}
                             required

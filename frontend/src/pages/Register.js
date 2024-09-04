@@ -15,7 +15,7 @@ const Register = () => {
         e.preventDefault();
 
         if (!nome || !cognome || !email || !password) {
-            setError('All fields are required.');
+            setError('I campi sono obbligartori');
             return;
         }
 
@@ -38,7 +38,7 @@ const Register = () => {
             navigate('/login');
         } else {
             const data = await response.json();
-            setError(data.message || 'Registration failed, please try again.');
+            setError(data.message || 'Registrazione errata');
         }
     };
 
@@ -92,7 +92,7 @@ const Register = () => {
                 />
                 <button type="submit" className="btn btn-primary btn-block">Register</button>
             </form>
-            <p className="mt-3">Already have an account? <Link to="/login">Login here</Link></p>
+            <p className="mt-3">Possiedi già un account? <Link to="/login">Login here</Link></p>
         </div>
     );
 };

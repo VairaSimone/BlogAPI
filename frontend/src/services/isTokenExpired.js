@@ -1,5 +1,5 @@
 import { jwtDecode } from 'jwt-decode';
-// utils/tokenUtils.js
+
 export const isTokenExpired = (token) => {
     if (!token) return true;
 

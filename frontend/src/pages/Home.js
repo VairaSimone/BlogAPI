@@ -65,20 +65,20 @@ const Home = () => {
                 </div>
             </nav>
 
-            <h2 className="my-4">Blog Posts</h2>
+            <h2 className="my-4">Blog</h2>
 
             <div className="mb-4">
                 <input
                     type="text"
                     className="form-control mb-2"
-                    placeholder="Search by Title"
+                    placeholder="Cerca per titolo"
                     value={searchTitle}
                     onChange={(e) => setSearchTitle(e.target.value)}
                 />
                 <input
                     type="text"
                     className="form-control"
-                    placeholder="Search by Category"
+                    placeholder="Cerca per categoria"
                     value={searchCategory}
                     onChange={(e) => setSearchCategory(e.target.value)}
                 />

@@ -1,4 +1,3 @@
-// pages/EditBlogPost.js
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { authFetch } from '../services/authFetch';
@@ -16,7 +15,7 @@ const EditBlogPost = () => {
                 const data = await response.json();
                 setBlog(data);
             } else {
-                setError('Failed to fetch blog data.');
+                setError('Erori nella chiamata blog.');
             }
         };
 
@@ -35,10 +34,10 @@ const EditBlogPost = () => {
         });
 
         if (response.ok) {
-            alert('Blog post updated successfully');
+            alert('Blog post aggiornato!');
             navigate('/profile');
         } else {
-            alert('Failed to update blog post.');
+            alert('Erore nel caricamento blog post.');
         }
     };
 
@@ -53,14 +52,14 @@ const EditBlogPost = () => {
                     <input
                         type="text"
                         className="form-control mb-2"
-                        placeholder="Title"
+                        placeholder="Titolo"
                         value={blog.title}
                         onChange={(e) => setBlog({ ...blog, title: e.target.value })}
                         required
                     />
                     <textarea
                         className="form-control mb-2"
-                        placeholder="Content"
+                        placeholder="Contenuto"
                         value={blog.content}
                         onChange={(e) => setBlog({ ...blog, content: e.target.value })}
                         required
@@ -68,7 +67,7 @@ const EditBlogPost = () => {
                     <input
                         type="text"
                         className="form-control mb-2"
-                        placeholder="Category"
+                        placeholder="Categoria"
                         value={blog.category}
                         onChange={(e) => setBlog({ ...blog, category: e.target.value })}
                         required

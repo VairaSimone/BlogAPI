@@ -1,6 +1,5 @@
-// pages/AuthorDetails.js
 import React, { useState, useEffect, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../components/AuthContext';
 import { authFetch } from '../services/authFetch';
 
@@ -10,24 +9,23 @@ const AuthorDetails = () => {
     const [blogs, setBlogs] = useState([]);
     const { isAuthenticated, user } = useContext(AuthContext);
     const [error, setError] = useState('');
+    const navigate = useNavigate(); // Initialize navigate
 
     useEffect(() => {
         const fetchAuthorDetails = async () => {
-            const authorResponse = await authFetch(`/authors/${authorId}`);
-            if (authorResponse.ok) {
+            try {
+                const authorResponse = await authFetch(`/authors/${authorId}`);
+                if (!authorResponse.ok) throw new Error('Errori nella fetch sugli autori.');
                 const authorData = await authorResponse.json();
                 setAuthor(authorData);
-            } else {
-                setError('Failed to fetch author details.');
-            }
 
-            const blogsResponse = await authFetch('/blogs');
-            if (blogsResponse.ok) {
+                const blogsResponse = await authFetch('/blogs');
+                if (!blogsResponse.ok) throw new Error('Errori nella fetch dei post.');
                 const blogsData = await blogsResponse.json();
                 const authorBlogs = blogsData.dati.filter(blog => blog.author === authorId);
                 setBlogs(authorBlogs);
-            } else {
-                setError('Failed to fetch blog posts.');
+            } catch (err) {
+                setError(err.message);
             }
         };
 
@@ -35,27 +33,25 @@ const AuthorDetails = () => {
     }, [authorId]);
 
     const handleDeleteBlog = async (blogId) => {
-        if (!window.confirm('Are you sure you want to delete this blog post?')) return;
+        if (!window.confirm('Sei sicuro che vuoi eliminare questo blog post?')) return;
 
-        const response = await authFetch(`/blogs/${blogId}`, {
-            method: 'DELETE',
-        });
-
-        if (response.ok) {
-            setBlogs(blogs.filter(blog => blog._id !== blogId));
-            alert('Blog post deleted successfully.');
-        } else {
-            alert('Failed to delete blog post.');
+        try {
+            const response = await authFetch(`/blogs/${blogId}`, {
+                method: 'DELETE',
+            });
+            if (response.ok) {
+                setBlogs(blogs.filter(blog => blog._id !== blogId));
+                alert('Blog post rimosso');
+            } else {
+                throw new Error('Errore nella rimozione del post.');
+            }
+        } catch (err) {
+            alert(err.message);
         }
     };
 
-    if (error) {
-        return <div className="alert alert-danger">{error}</div>;
-    }
-
-    if (!author) {
-        return <div>Loading...</div>;
-    }
+    if (error) return <div className="alert alert-danger">{error}</div>;
+    if (!author) return <div>Caricamento...</div>;
 
     return (
         <div className="container">
@@ -71,20 +67,19 @@ const AuthorDetails = () => {
                             <div className="card-body">
                                 <h5 className="card-title">{blog.title}</h5>
                                 <p className="card-text">{blog.content}</p>
-                                {/* Only show Edit and Delete buttons if the logged-in user is the author */}
                                 {isAuthenticated && user && user._id === blog.author && (
                                     <>
                                         <button
                                             className="btn btn-warning mr-2"
                                             onClick={() => navigate(`/edit-blog/${blog._id}`)}
                                         >
-                                            Edit
+                                            Modifica
                                         </button>
                                         <button
                                             className="btn btn-danger"
                                             onClick={() => handleDeleteBlog(blog._id)}
                                         >
-                                            Delete
+                                            Elimina
                                         </button>
                                     </>
                                 )}
