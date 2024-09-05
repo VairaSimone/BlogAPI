@@ -26,8 +26,8 @@ export const callbackGoogle = (req, res) => {
     const token = req.user.jwtToken;
 
     if (!token) {
-        console.error("Missing token from Google OAuth callback");
-        return res.status(401).send("Authentication failed");
+        console.error("Token Google non trovato");
+        return res.status(401).send("Autentificazione fallita");
     }
 
     res.redirect(`http://localhost:3000/login-google-callback?token=${token}`);

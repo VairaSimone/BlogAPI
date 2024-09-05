@@ -1,4 +1,3 @@
-// router/blog.router.js
 import express from 'express';
 import * as blogController from '../controllers/BlogRoute_controller.js';
 import * as commentController from '../controllers/CommentRoute_controller.js';
@@ -21,7 +20,6 @@ blogRouter.delete('/:blogId', blogController.DeleteBlog);
 
 blogRouter.patch('/:blogPostId/cover', blogController.UpdateBlogPostCover);
 
-// Routes per i commenti
 blogRouter.get('/:id/comments', commentController.GetAllComments);
 
 blogRouter.get('/:id/comments/:commentId', commentController.GetCommentById);

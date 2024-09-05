@@ -1,4 +1,3 @@
-// models/Blog.js
 import mongoose, { Schema, model } from 'mongoose';
 
 const blogSchema = new Schema(

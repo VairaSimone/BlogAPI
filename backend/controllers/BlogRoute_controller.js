@@ -63,12 +63,10 @@ const GetAllBlogByTitle = async (req, res) => {
     }
 }
 
-// controllers/BlogRoute_controller.js
 const PostBlog = async (req, res) => {
     try {
         const blogData = req.body;
 
-        // Assicurati che `comments` sia un array di ObjectId valido o un array vuoto
         if (blogData.comments && !Array.isArray(blogData.comments)) {
             return res.status(400).send({ message: 'Il campo comments deve essere un array.' });
         }
@@ -80,11 +78,9 @@ const PostBlog = async (req, res) => {
 
         const createdBlog = await newBlog.save();
 
-        // Trova l'autore associato al blog post
         const author = await Author.findById(blogData.author);
 
         if (author) {
-            // Inviare email di notifica
             await transporter.sendMail({
                 from: '"La tua piattaforma" <no-reply@tuaptaform.com>',
                 to: author.email,

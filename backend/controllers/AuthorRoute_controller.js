@@ -61,14 +61,13 @@ const GetAllBlogByAuthor = async (req, res) => {
 
 const GetMe = async (req, res) => {
     try {
-        // Usare l'ID dell'utente autenticato dal middleware
         const user = await Author.findById(req.authAuthor._id);
         if (!user) {
-            return res.status(404).send({ message: 'User not found' });
+            return res.status(404).send({ message: 'Utente non trovato' });
         }
         res.send(user);
     } catch (error) {
-        console.error("Error fetching user:", error);
+        console.error("Errore negli user: ", error);
         res.status(500).send({ message: 'Server error' });
     }
 }
@@ -76,14 +75,12 @@ const GetMe = async (req, res) => {
 
 const PostAuthor = async (req, res) => {
     try {
-        // Controlla se l'email è già in uso
         const author = await Author.findOne({ email: req.body.email });
         if (author) return res.status(500).send("Mail in uso");
 
-        // Crea una nuova istanza di Author con un nuovo _id
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
         const newAuthor = new Author({
-            _id: new mongoose.Types.ObjectId(), // Generazione manuale di un nuovo ObjectId
+            _id: new mongoose.Types.ObjectId(), 
             nome: req.body.nome,
             cognome: req.body.cognome,
             email: req.body.email,
@@ -92,10 +89,8 @@ const PostAuthor = async (req, res) => {
             avatar: req.body.avatar
         });
 
-        // Salva l'autore nel database
         const createdAuthor = await newAuthor.save();
 
-        // Invia un'email di benvenuto
         await transporter.sendMail({
             from: '"La tua piattaforma" <no-reply@tuaptaform.com>',
             to: createdAuthor.email,
@@ -104,7 +99,6 @@ const PostAuthor = async (req, res) => {
             html: `<p>Ciao ${createdAuthor.nome},</p><p>Grazie per esserti registrato su La tua piattaforma. Siamo felici di averti con noi!</p>`,
         });
 
-        // Risposta di successo
         res.status(201).send(createdAuthor);
     } catch (error) {
         console.log("Errore:", error);

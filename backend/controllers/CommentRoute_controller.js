@@ -1,4 +1,3 @@
-// controllers/CommentRoute_controller.js
 import mongoose from 'mongoose';
 import Comment from '../models/Comment.js';
 import Blog from '../models/Blog.js';

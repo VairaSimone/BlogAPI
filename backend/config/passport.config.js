@@ -1,7 +1,7 @@
 import GoogleStrategy from "passport-google-oauth20";
 import jwt from "jsonwebtoken";
 import Author from "../models/Author.js";
-import mongoose from 'mongoose'; // Importa mongoose per generare manualmente l'ObjectId
+import mongoose from 'mongoose'; 
 
 const googleStrategy = new GoogleStrategy({
     clientID: process.env.GOOGLE_ID,
@@ -14,9 +14,8 @@ const googleStrategy = new GoogleStrategy({
         let user = await Author.findOne({ googleId });
 
         if (!user) {
-            // Se l'utente non esiste, crealo con un _id generato manualmente
             user = new Author({
-                _id: new mongoose.Types.ObjectId(), // Genera manualmente l'_id
+                _id: new mongoose.Types.ObjectId(), 
                 googleId,
                 nome: firstName,
                 cognome: lastName,
@@ -32,7 +31,7 @@ const googleStrategy = new GoogleStrategy({
 
         return passportNext(null, { jwtToken });
     } catch (err) {
-        console.error("Error in Google Strategy:", err);
+        console.error("Errore nell'accesso", err);
         return passportNext(err, null);
     }
 });
