@@ -30,5 +30,5 @@ export const callbackGoogle = (req, res) => {
         return res.status(401).send("Autentificazione fallita");
     }
 
-    res.redirect(`http://localhost:3000/login-google-callback?token=${token}`);
+    res.redirect(`${process.env.FRONTEND_URL}/login-google-callback?token=${token}`);
 };
