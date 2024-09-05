@@ -1,9 +1,9 @@
-import { IsTokenExpired } from './IsTokenExpired.js';
+import { isTokenExpired } from './isTokenExpired.js';
 
 export const authFetch = async (url, options = {}) => {
     const token = localStorage.getItem('token');
 
-    if (IsTokenExpired(token)) {
+    if (isTokenExpired(token)) {
         localStorage.removeItem('token');
         window.location.href = '/login';  
         return;
