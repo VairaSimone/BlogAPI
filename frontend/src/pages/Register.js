@@ -29,7 +29,7 @@ const Register = () => {
             formData.append('avatar', avatar);
         }
 
-        const response = await fetch('/authors', {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/authors`, {
             method: 'POST',
             body: formData,
         });

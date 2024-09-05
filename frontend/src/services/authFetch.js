@@ -29,7 +29,7 @@ export const authFetch = async (url, options = {}) => {
         }
     }
 
-    const response = await fetch(url, {
+    const response = await fetch(process.env.REACT_APP_API_URL + url, {
         ...options,
         headers,
     });
