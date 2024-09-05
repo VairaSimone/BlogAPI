@@ -1,24 +1,14 @@
 import React, { createContext, useState, useEffect, useCallback } from 'react';
-import { jwtDecode } from 'jwt-decode'; // Mantieni l'import di jwtDecode
+import { IsTokenExpired } from '../services/IsTokenExpired';
 
 export const AuthContext = createContext();
-
-// Funzione per verificare se il token è scaduto
-const isTokenExpired = (token) => {
-    if (!token) return true;
-
-    const decodedToken = jwtDecode(token);
-    const currentTime = Date.now() / 1000;
-
-    return decodedToken.exp < currentTime;
-};
 
 export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
-        if (token && !isTokenExpired(token)) {
+        if (token && !IsTokenExpired(token)) {
             setIsAuthenticated(true);
         } else {
             logout(); 
