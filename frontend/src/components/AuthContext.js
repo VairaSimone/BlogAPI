@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useCallback } from 'react';
-import { isTokenExpired } from '../services/IsTokenExpired';
+import { isTokenExpired } from '../services/isTokenExpired';
 
 export const AuthContext = createContext();
 
