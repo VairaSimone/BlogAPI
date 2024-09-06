@@ -15,24 +15,13 @@ import googleStrategy from './config/passport.config.js';
 const port = process.env.PORT || 5000;
 
 const app = express();
-/*
 const corsOptions = {
-    origin: (origin, callback) => {
-        const whitelist = [`${process.env.FRONTEND_URL}`]; 
-        if (whitelist.indexOf(origin) !== -1 || !origin) {
-            callback(null, true);
-        } else {
-            callback(new Error('Non consentito da CORS'));
-        }
-    },
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    optionsSuccessStatus: 204
+    origin: process.env.FRONTEND_URL, 
+    optionsSuccessStatus: 200,
+    credentials: true 
 };
 
-app.use(cors(corsOptions));
-*/
-app.use(cors());
+app.use(cors(corsOptions)); 
 
 
 app.use(express.json());
